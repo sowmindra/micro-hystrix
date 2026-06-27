@@ -1,0 +1,513 @@
+Bookmarklet
+
+javascript:(async function(){const passengers=[{name:"Sowmindra Rotti",age:"48",gender:"Male",idType:"Aadhaar Card",idNum:"378747039998"},{name:"Kowshika Rotti",age:"41",gender:"Female",idType:"Aadhaar Card",idNum:"461188970587"},{name:"Vedokta Rotti",age:"14",gender:"Female",idType:"Aadhaar Card",idNum:"300934636592"},{name:"Sowmindra Rotti",age:"48",gender:"Male",idType:"Aadhaar Card",idNum:"378747039998"},{name:"Kowshika Rotti",age:"41",gender:"Female",idType:"Aadhaar Card",idNum:"461188970587"},{name:"Vedokta Rotti",age:"14",gender:"Female",idType:"Aadhaar Card",idNum:"300934636592"}];const contactDetails=["sowmindra@gmail.com","Hyderabad","Telangana","India","500072"];const dataset=[];passengers.forEach(p=>{dataset.push(p.name,p.age,p.gender,p.idType,p.idNum);});dataset.push(...contactDetails);const delay=ms=>new Promise(res=>setTimeout(res,ms));const fields=document.querySelectorAll('input:not([type="submit"]):not([type="hidden"]):not([type="button"]):not([type="radio"]), textarea');for(let i=0;i<fields.length;i++){if(i>=dataset.length||dataset[i]===undefined)break;const el=fields[i];const value=dataset[i];const rect=el.getBoundingClientRect();const cX=rect.left+rect.width/2;const cY=rect.top+rect.height/2;const disp=(t,cls=MouseEvent)=>{el.dispatchEvent(new cls(t,{bubbles:true,cancelable:true,view:window,clientX:cX,clientY:cY,buttons:1,isPrimary:true,pointerId:1,pointerType:"mouse"}));};disp('mouseenter');disp('mouseover');disp('pointerover',PointerEvent);disp('pointerenter',PointerEvent);await delay(50);disp('pointerdown',PointerEvent);disp('mousedown');el.focus();await delay(50);disp('pointerup',PointerEvent);disp('mouseup');disp('click');await delay(100);let optClicked=false;const opts=document.querySelectorAll('div, span, li, p, a, option');for(let opt of opts){if(opt.innerText&&opt.innerText.trim().toLowerCase()===value.toLowerCase().trim()){if(opt!==el&&opt.offsetWidth>0&&opt.offsetHeight > 0){const oR=opt.getBoundingClientRect();opt.dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true,clientX:oR.left+oR.width/2,clientY:oR.top+oR.height/2}));optClicked=true;break;}}}if(!optClicked){const setter=Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype,"value")?.set||Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype,"value")?.set;if(setter){setter.call(el,value);}else{el.value=value;}}el.dispatchEvent(new Event('input',{bubbles:true,cancelable:true}));el.dispatchEvent(new KeyboardEvent('keydown',{bubbles:true,cancelable:true,key:'Process'}));el.dispatchEvent(new Event('change',{bubbles:true,cancelable:true}));el.dispatchEvent(new KeyboardEvent('keyup',{bubbles:true,cancelable:true,key:'Process'}));el.blur();el.dispatchEvent(new Event('blur',{bubbles:true,cancelable:true}));disp('mouseleave');disp('mouseout');disp('pointerout',PointerEvent);disp('pointerleave',PointerEvent);await delay(150);}if(document.activeElement)document.activeElement.blur();})();
+
+************************************************
+Snippet
+
+(async function() {
+  /* 
+    ===================================================================
+    PASSENGER DATASET CONFIGURATION
+    ===================================================================
+  */
+  const passengers = [
+    { name: "Sowmindra Rotti", age: "48", gender: "Male",   idType: "Aadhaar Card", idNum: "378747039998" }, // Row 1
+    { name: "Kowshika Rotti",  age: "41", gender: "Female", idType: "Aadhaar Card", idNum: "461188970587" }, // Row 2
+    { name: "Vedokta Rotti",   age: "14", gender: "Female", idType: "Aadhaar Card", idNum: "300934636592" }, // Row 3
+    
+    { name: "Sowmindra Rotti", age: "48", gender: "Male",   idType: "Aadhaar Card", idNum: "378747039998" }, // Row 4
+    { name: "Kowshika Rotti",  age: "41", gender: "Female", idType: "Aadhaar Card", idNum: "461188970587" }, // Row 5
+    /* Sample Rows 4, 5, and 6 (Edit or comment out as needed) 
+    
+	{ name: "Vedokta Rotti",   age: "14", gender: "Female", idType: "Aadhaar Card", idNum: "300934636592" }, // Row 6
+	*/
+  ];
+
+  /* Contact and Address Details */
+  const contactDetails = [
+    "sowmindra@gmail.com", /* Email */
+    "Hyderabad",           /* City */
+    "Telangana",           /* State */
+    "India",               /* Country */
+    "500072"               /* Pincode */
+  ];
+
+  /* 
+    ===================================================================
+    AUTOMATION ENGINE (With Trusted Physical Mouse Emulation)
+    ===================================================================
+  */
+  const dataset = [];
+  passengers.forEach(p => { dataset.push(p.name, p.age, p.gender, p.idType, p.idNum); });
+  dataset.push(...contactDetails);
+
+  const delay = ms => new Promise(res => setTimeout(res, ms));
+  const fields = document.querySelectorAll('input:not([type="submit"]):not([type="hidden"]):not([type="button"]):not([type="radio"]), textarea');
+
+  console.log(`Executing Trusted Pointer Macro for ${passengers.length} passengers...`);
+
+  for (let i = 0; i < fields.length; i++) {
+    if (i >= dataset.length || dataset[i] === undefined) break;
+
+    const el = fields[i];
+    const value = dataset[i];
+
+    /* Calculate the absolute physical middle coordinates of the input box on your screen */
+    const rect = el.getBoundingClientRect();
+    const clientX = rect.left + rect.width / 2;
+    const clientY = rect.top + rect.height / 2;
+
+    /* Helper function to generate a fake physical mouse track sequence */
+    function dispatchMouseEvent(type) {
+      const ev = new MouseEvent(type, {
+        bubbles: true,
+        cancelable: true,
+        view: window,
+        clientX: clientX,
+        clientY: clientY,
+        buttons: 1
+      });
+      el.dispatchEvent(ev);
+    }
+
+    function dispatchPointerEvent(type) {
+      const ev = new PointerEvent(type, {
+        bubbles: true,
+        cancelable: true,
+        view: window,
+        clientX: clientX,
+        clientY: clientY,
+        isPrimary: true,
+        pointerId: 1,
+        pointerType: "mouse"
+      });
+      el.dispatchEvent(ev);
+    }
+
+    /* 1. Emulate Hardware Mouse Move & Hover */
+    dispatchMouseEvent('mouseenter');
+    dispatchMouseEvent('mouseover');
+    dispatchPointerEvent('pointerover');
+    dispatchPointerEvent('pointerenter');
+    await delay(50);
+
+    /* 2. Emulate Physical Mouse Press (Down-Up-Click Sequence) */
+    dispatchPointerEvent('pointerdown');
+    dispatchMouseEvent('mousedown');
+    el.focus();
+    await delay(50);
+    
+    dispatchPointerEvent('pointerup');
+    dispatchMouseEvent('mouseup');
+    dispatchMouseEvent('click');
+    await delay(100);
+
+    /* 3. Query DOM for dropdown option items */
+    let optionClicked = false;
+    const floatingOptions = document.querySelectorAll('div, span, li, p, a, option');
+    
+    for (let opt of floatingOptions) {
+      if (opt.innerText && opt.innerText.trim().toLowerCase() === value.toLowerCase().trim()) {
+        if (opt !== el && opt.offsetWidth > 0 && opt.offsetHeight > 0) {
+          /* Click the floating dropdown choice with coordinate data */
+          const optRect = opt.getBoundingClientRect();
+          const oX = optRect.left + optRect.width / 2;
+          const oY = optRect.top + optRect.height / 2;
+          
+          opt.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, clientX: oX, clientY: oY }));
+          optionClicked = true;
+          break;
+        }
+      }
+    }
+
+    /* 4. Text Input Injection (Fallback if not a dropdown choice) */
+    if (!optionClicked) {
+      const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value")?.set || 
+                     Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, "value")?.set;
+      if (setter) {
+        setter.call(el, value);
+      } else {
+        el.value = value;
+      }
+    }
+
+    /* 5. Emulate Hardware Keyboard Signals & Change Notifications */
+    el.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
+    el.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, cancelable: true, key: 'Process' }));
+    el.dispatchEvent(new Event('change', { bubbles: true, cancelable: true }));
+    el.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true, cancelable: true, key: 'Process' }));
+
+    /* 6. Physical Mouse Leave Sequence (Simulates moving the mouse cursor away) */
+    el.blur();
+    el.dispatchEvent(new Event('blur', { bubbles: true, cancelable: true }));
+    dispatchMouseEvent('mouseleave');
+    dispatchMouseEvent('mouseout');
+    dispatchPointerEvent('pointerout');
+    dispatchPointerEvent('pointerleave');
+    
+    await delay(150);
+  }
+
+  if (document.activeElement) document.activeElement.blur();
+  console.log("Macro Execution Finished. Real Mouse interactions forced.");
+})();
+
+
+
+
+**** Divyanugraha Homam
+
+javascript:(function(){
+  /* 1. REPLACE THE VALUES INSIDE THE QUOTES WITH YOUR ACTUAL DATA */
+  const data = {
+    /* Main Pilgrim Details */
+    "gothram": "Vasista",
+    "pilgrimEmail": "sowmindra@gmail.com",
+    "pilgrimCity": "Hyderabad",
+    "pilgrimState": "Telangana",
+    "pilgrimCountry": "India",
+    "pilgrimPincode": "500072",
+    
+    /* Primary Pilgrim / Person 1 */
+    "name": "Sowmindra Rotti",
+    "age": "48",
+    "gender": "Male",         /* Match option text exactly: e.g., Male, Female, M, F */
+    "idType": "Aadhar Card",  /* Match dropdown option value exactly */
+    "idNumber": "378747039998",
+
+    /* Companion / Person 2 */
+    "companion1_name": "Kowshika Rotti",
+    "companion1_age": "41",
+    "companion1_gender": "Female",
+    "companion1_idType": "Aadhar ID",
+    "companion1_idNumber": "461188970587",
+
+    /* Companion / Person 3 */
+    "companion2_name": "Kowshika Rotti",
+    "companion2_age": "41",
+    "companion2_gender": "Female",
+    "companion2_idType": "Aadhar ID",
+    "companion2_idNumber": "461188970587"
+  };
+
+  /* 2. AUTOMATIC FORM MATCHING AND FILL LOGIC */
+  Object.keys(data).forEach(key => {
+    function fillInDoc(doc) {
+      /* Base key handling for primary data and custom tags */
+      let cleanId = key;
+      let companionMatch = key.match(/^companion(\d+)_(.+)$/);
+      
+      /* Target element selectors array tried in order of priority */
+      let selectors = [];
+      
+      if (companionMatch) {
+        let index = companionMatch[1]; /* e.g., "1" */
+        let fieldName = companionMatch[2]; /* e.g., "name", "age" */
+        
+        /* Generates common web patterns for repeating form rows */
+        selectors.push(`[data-custom-autofill-id="${key}"]`);
+        selectors.push(`[name="${fieldName}_${index}"]`);
+        selectors.push(`[name="${fieldName}${index}"]`);
+        selectors.push(`#${fieldName}_${index}`);
+        selectors.push(`#${fieldName}${index}`);
+        selectors.push(`[name="companion_${index}_${fieldName}"]`);
+      } else {
+        selectors.push(`[data-custom-autofill-id="${key}"]`);
+        selectors.push(`#${key}`);
+        selectors.push(`[name="${key}"]`);
+      }
+
+      /* Attempt to find the element using the generated targets */
+      let el = null;
+      for (let selector of selectors) {
+        el = doc.querySelector(selector);
+        if (el) break;
+      }
+
+      /* Execute values insertion and dispatch native element events */
+      if (el) {
+        if (el.type === "checkbox") {
+          el.checked = (data[key] === true || data[key] === "true");
+        } else if (el.type === "radio") {
+          const r = doc.querySelector(`input[name="${el.name}"][value="${data[key]}"]`);
+          if (r) r.checked = true;
+        } else {
+          el.value = data[key];
+        }
+        /* Fires events so dynamic frameworks (React, Angular, Vue) register the input change */
+        el.dispatchEvent(new Event("input", { bubbles: true }));
+        el.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+
+      /* Traverse nested iframes if present on the booking portal */
+      doc.querySelectorAll("iframe").forEach(iframe => {
+        try {
+          if(iframe.contentDocument) fillInDoc(iframe.contentDocument);
+        } catch(e){}
+      });
+    }
+    fillInDoc(document);
+  });
+})();
+
+
+**SNippet for above
+(async function() {
+  /* 1. DATA OBJECT CONFIGURATION */
+  const data = {
+    "gothram": "Vasista",
+    "pilgrimEmail": "sowmindra@gmail.com",
+    "pilgrimCity": "Hyderabad",
+    "pilgrimState": "Telangana",
+    "pilgrimCountry": "India",
+    "pilgrimPincode": "500072",
+    
+    "name": "Sowmindra Rotti",
+    "age": "48",
+    "gender": "Male",
+    "idType": "Aadhaar Card", /* Ensured 'Aadhaar' spelling matches official TTD forms */
+    "idNumber": "378747039998",
+
+    "companion1_name": "Kowshika Rotti",
+    "companion1_age": "41",
+    "companion1_gender": "Female",
+    "companion1_idType": "Aadhaar Card",
+    "companion1_idNumber": "461188970587",
+
+    "companion2_name": "Kowshika Rotti",
+    "companion2_age": "41",
+    "companion2_gender": "Female",
+    "companion2_idType": "Aadhaar Card",
+    "companion2_idNumber": "461188970587"
+  };
+
+  const delay = ms => new Promise(res => setTimeout(res, ms));
+  const dataset = Object.values(data);
+
+  /* 2. EXPLICITLY TARGET INPUTS AND MAT-SELECT ELEMENTS */
+  const fields = document.querySelectorAll('input:not([type="submit"]):not([type="hidden"]):not([type="button"]):not([type="radio"]), textarea, mat-select, [role="combobox"]');
+
+  for (let i = 0; i < fields.length; i++) {
+    if (i >= dataset.length || dataset[i] === undefined) break;
+
+    let el = fields[i];
+    const value = String(dataset[i]);
+
+    // Safety Guardrail: Skip if the query returned a non-HTML element node
+    if (!el || !(el instanceof Element)) continue;
+
+    // Handle dynamically disabled field locks
+    if (el.disabled || el.getAttribute('aria-disabled') === 'true') {
+      await delay(200);
+      el = fields[i]; 
+      if (!el || !(el instanceof Element)) continue;
+    }
+
+    const rect = el.getBoundingClientRect();
+    const cX = rect.left + rect.width / 2;
+    const cY = rect.top + rect.height / 2;
+
+    // Fixed Dispatcher: Extracted target dependencies to prevent argument prototype parsing errors
+    const disp = (eventType, eventClass) => {
+      const cls = eventClass || MouseEvent;
+      el.dispatchEvent(new cls(eventType, { 
+        bubbles: true, 
+        cancelable: true, 
+        view: window, 
+        clientX: cX, 
+        clientY: cY, 
+        buttons: 1, 
+        isPrimary: true, 
+        pointerId: 1, 
+        pointerType: "mouse" 
+      }));
+    };
+
+    // Trigger physical hardware emulation events safely
+    disp('mouseenter'); disp('mouseover'); disp('pointerover', PointerEvent); disp('pointerenter', PointerEvent);
+    await delay(50);
+    disp('pointerdown', PointerEvent); disp('mousedown');
+    el.focus();
+    await delay(50);
+    disp('pointerup', PointerEvent); disp('mouseup'); disp('click');
+    
+    // Give dynamic dropdown panels time to render on screen
+    await delay(250); 
+
+    let optClicked = false;
+    const opts = document.querySelectorAll('mat-option, .mat-option, .mat-select-panel option, [role="option"], div, span, li');
+    
+    for (let opt of opts) {
+      if (opt && opt instanceof Element && opt.innerText && opt.innerText.trim().toLowerCase() === value.toLowerCase().trim()) {
+        if (opt !== el && opt.offsetWidth > 0 && opt.offsetHeight > 0) {
+          const oR = opt.getBoundingClientRect();
+          const oX = oR.left + oR.width / 2;
+          const oY = oR.top + oR.height / 2;
+          
+          opt.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true, cancelable: true, clientX: oX, clientY: oY, buttons: 1 }));
+          opt.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true, clientX: oX, clientY: oY, buttons: 1 }));
+          opt.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, clientX: oX, clientY: oY }));
+          opt.dispatchEvent(new MouseEvent('mouseup', { bubbles: true, cancelable: true, clientX: oX, clientY: oY }));
+          
+          optClicked = true;
+          break;
+        }
+      }
+    }
+
+    // Direct value fallback text entry for standard text boxes
+    if (!optClicked && el.tagName !== 'MAT-SELECT') {
+      const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value")?.set || 
+                     Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, "value")?.set;
+      if (setter) {
+        setter.call(el, value);
+      } else {
+        el.value = value;
+      }
+      el.dispatchEvent(new InputEvent('input', { bubbles: true, cancelable: true, data: value, inputType: 'insertText' }));
+    }
+
+    // Fire application form change lifecycles
+    el.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, cancelable: true, key: 'Process' }));
+    el.dispatchEvent(new Event('change', { bubbles: true, cancelable: true }));
+    el.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true, cancelable: true, key: 'Process' }));
+    el.blur();
+    el.dispatchEvent(new Event('blur', { bubbles: true, cancelable: true }));
+    disp('mouseleave'); disp('mouseout'); disp('pointerout', PointerEvent); disp('pointerleave', PointerEvent);
+    
+    await delay(150); 
+  }
+  if (document.activeElement) document.activeElement.blur();
+})();
+
+
+--
+srivani 4 tickets current booking
+
+(async function() {
+  /* 
+    ===================================================================
+    TTD PASSENGER CONFIGURATION
+    ===================================================================
+  */
+  const passengers = [
+    { name: "Sowmindra Rotti", age: "48", gender: "Male",   idType: "Aadhaar Card", idNum: "378747039998" }, // Passenger 1
+    { name: "Kowshika Rotti",  age: "41", gender: "Female", idType: "Aadhaar Card", idNum: "461188970587" }, // Passenger 2
+    { name: "Vedokta Rotti",   age: "14", gender: "Female", idType: "Aadhaar Card", idNum: "300934636592" }, // Passenger 3
+    { name: "Sowmindra Rotti", age: "48", gender: "Male",   idType: "Aadhaar Card", idNum: "378747039998" }  // Passenger 4
+  ];
+
+  const delay = ms => new Promise(res => setTimeout(res, ms));
+  console.log("Executing character-by-character hardware typing macro...");
+
+  /* This helper function simulates a real human typing into a box */
+  async function humanType(element, text) {
+    if (!element || !text) return;
+    
+    element.focus();
+    element.click();
+    await delay(50);
+    element.value = ""; /* Wipe the box to start fresh */
+    element.dispatchEvent(new Event('input', { bubbles: true }));
+
+    /* Loop through each letter and fake a hardware keystroke */
+    for (let char of text) {
+      element.value += char;
+      
+      const keyOpts = { key: char, charCode: char.charCodeAt(0), keyCode: char.charCodeAt(0), bubbles: true, cancelable: true };
+      element.dispatchEvent(new KeyboardEvent('keydown', keyOpts));
+      element.dispatchEvent(new KeyboardEvent('keypress', keyOpts));
+      element.dispatchEvent(new Event('input', { bubbles: true }));
+      element.dispatchEvent(new KeyboardEvent('keyup', keyOpts));
+      
+      await delay(15); /* Short delay between letters to mimic fast human typing */
+    }
+
+    element.dispatchEvent(new Event('change', { bubbles: true }));
+    element.blur();
+    element.dispatchEvent(new Event('blur', { bubbles: true }));
+    await delay(100);
+  }
+
+  /* Separate interactive script for handling the dropdown components */
+  async function selectDropdown(el, targetValue) {
+    if (!el || !targetValue) return;
+    el.focus();
+    el.click();
+    await delay(100);
+
+    let matched = false;
+    if (el.tagName.toLowerCase() === 'select') {
+      const target = targetValue.toLowerCase().trim();
+      for (let j = 0; j < el.options.length; j++) {
+        if (el.options[j].text.toLowerCase().trim() === target || el.options[j].value.toLowerCase().trim() === target) {
+          el.selectedIndex = j;
+          matched = true;
+          break;
+        }
+      }
+    } else {
+      const items = document.querySelectorAll('div, span, li, p, a, option');
+      for (let item of items) {
+        if (item.innerText && item.innerText.trim().toLowerCase() === targetValue.toLowerCase().trim()) {
+          if (item !== el && item.offsetWidth > 0 && item.offsetHeight > 0) {
+            item.click();
+            matched = true;
+            break;
+          }
+        }
+      }
+    }
+
+    el.dispatchEvent(new Event('change', { bubbles: true }));
+    el.blur();
+    await delay(100);
+  }
+
+  /* Scan for dropdown selectors on the live DOM page layout */
+  const proofSelectors = document.querySelectorAll('[name*="selectedProof"], [id*="selectedProof"]');
+
+  /* Main Loop processing row data step-by-step */
+  for (let idx = 0; idx < passengers.length; idx++) {
+    const p = passengers[idx];
+    const row = idx + 1;
+
+    // 1. Physically type Passenger Name
+    const nameEl = document.getElementById(`fName${row}`) || document.querySelector(`[name="fName${row}"]`) || document.querySelector(`input[id*="fName${row}"]`);
+    if (nameEl) {
+      await humanType(nameEl, p.name);
+    } else {
+      console.warn(`Could not find Name input for Passenger ${row}`);
+    }
+
+    // 2. Physically type Age
+    const ageEl = document.getElementById(`age${row}`) || document.querySelector(`[name="age${row}"]`);
+    if (ageEl) await humanType(ageEl, p.age);
+
+    // 3. Click Gender Dropdown Choice
+    const genderEl = document.getElementById(`gender${row}`) || document.querySelector(`[name="gender${row}"]`);
+    if (genderEl) await selectDropdown(genderEl, p.gender);
+
+    // 4. Click Identity Document Selection Field
+    if (proofSelectors[idx]) {
+      await selectDropdown(proofSelectors[idx], p.idType);
+      await delay(200); /* Mandatory buffer for TTD validation updates */
+    }
+
+    // 5. Physically type ID Number string
+    const idNumEl = document.getElementById(`proofId${row}`) || document.querySelector(`[name="proofId${row}"]`);
+    if (idNumEl) await humanType(idNumEl, p.idNum);
+  }
+
+  /* Place cursor cleanly on Captcha Input at the end */
+  const cap = document.getElementById("captchaInput") || document.querySelector('[name="captchaInput"]');
+  if (cap) cap.focus();
+
+  console.log("TTD Physical Injection complete. Ready for manual Captcha entry.");
+})();
+
+--bookmarklet
+
+javascript:(async function(){const passengers=[{name:"Sowmindra Rotti",age:"48",gender:"Male",idType:"Aadhaar Card",idNum:"378747039998"},{name:"Kowshika Rotti",age:"41",gender:"Female",idType:"Aadhaar Card",idNum:"461188970587"},{name:"Vedokta Rotti",age:"14",gender:"Female",idType:"Aadhaar Card",idNum:"300934636592"},{name:"Sowmindra Rotti",age:"48",gender:"Male",idType:"Aadhaar Card",idNum:"378747039998"}];const delay=ms=>new Promise(res=>setTimeout(res,ms));const proofSelectors=document.querySelectorAll('[name*="selectedProof"], [id*="selectedProof"]');async function humanType(el,txt){if(!el||!txt)return;el.focus();el.click();await delay(50);el.value="";el.dispatchEvent(new Event('input',{bubbles:true}));for(let c of txt){el.value+=c;const o={key:c,charCode:c.charCodeAt(0),keyCode:c.charCodeAt(0),bubbles:true};el.dispatchEvent(new KeyboardEvent('keydown',o));el.dispatchEvent(new KeyboardEvent('keypress',o));el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new KeyboardEvent('keyup',o));await delay(15);}el.dispatchEvent(new Event('change',{bubbles:true}));el.blur();el.dispatchEvent(new Event('blur',{bubbles:true}));await delay(100);}async function selDrop(el,val){if(!el||!val)return;el.focus();el.click();await delay(100);let m=false;if(el.tagName.toLowerCase()==='select'){const t=val.toLowerCase().trim();for(let j=0;j<el.options.length;j++){if(el.options[j].text.toLowerCase().trim()===t||el.options[j].value.toLowerCase().trim()===t){el.selectedIndex=j;m=true;break;}}}else{const items=document.querySelectorAll('div, span, li, p, a, option');for(let item of items){if(item.innerText&&item.innerText.trim().toLowerCase()===val.toLowerCase().trim()){if(item!==el&&item.offsetWidth>0&&item.offsetHeight>0){item.click();m=true;break;}}}}el.dispatchEvent(new Event('change',{bubbles:true}));el.blur();await delay(100);}for(let i=0;i<passengers.length;i++){const p=passengers[i];const n=i+1;await humanType(document.getElementById(`fName${n}`)||document.querySelector(`[name="fName${n}"]`)||document.querySelector(`input[id*="fName${n}"]`),p.name);await humanType(document.getElementById(`age${n}`)||document.querySelector(`[name="age${n}"]`),p.age);await selDrop(document.getElementById(`gender${n}`)||document.querySelector(`[name="gender${n}"]`),p.gender);if(proofSelectors[i]){await selDrop(proofSelectors[i],p.idType);await delay(200);}await humanType(document.getElementById(`proofId${n}`)||document.querySelector(`[name="proofId${n}"]`),p.idNum);}const cap=document.getElementById("captchaInput")||document.querySelector('[name="captchaInput"]');if(cap)cap.focus();})();
